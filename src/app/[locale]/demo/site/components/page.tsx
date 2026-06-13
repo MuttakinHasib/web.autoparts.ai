@@ -5,6 +5,8 @@ import { InputNumber } from "@/components/shared/input-number";
 import { Price } from "@/components/shared/price";
 import { Rating } from "@/components/shared/rating";
 import { SectionHeader } from "@/components/shared/section-header";
+import { StatusBadge } from "@/components/shared/status-badge";
+import { TagBadge } from "@/components/shared/tag-badge";
 import { ThemeToggle } from "@/components/theme-toggle";
 import {
   Accordion,
@@ -12,6 +14,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -36,6 +39,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Textarea } from "@/components/ui/textarea";
 import {
   Tooltip,
   TooltipContent,
@@ -71,6 +75,9 @@ export default async function ComponentsStyleGuide({
         <Typography />
         <Buttons />
         <Badges />
+        <Tags />
+        <StatusBadges />
+        <Alerts />
         <FormControls />
         <Indicators />
         <Surfaces />
@@ -148,11 +155,73 @@ function Badges() {
         <Badge>Default</Badge>
         <Badge variant="secondary">Secondary</Badge>
         <Badge variant="outline">Outline</Badge>
-        <Badge variant="destructive">Out of stock</Badge>
-        <Badge>Sale</Badge>
-        <Badge className="bg-blue-500 text-white">New</Badge>
-        <Badge className="bg-purple-600 text-white">Hot</Badge>
-        <Badge className="bg-emerald-600 text-white">In stock</Badge>
+        <Badge variant="destructive">Destructive</Badge>
+        <Badge variant="ghost">Ghost</Badge>
+        <Badge variant="link">Link</Badge>
+      </div>
+    </Block>
+  );
+}
+
+function Tags() {
+  return (
+    <Block title="Tag badges">
+      <div className="flex flex-wrap items-center gap-3">
+        <TagBadge variant="theme">Theme</TagBadge>
+        <TagBadge variant="sale">Sale</TagBadge>
+        <TagBadge variant="new">New</TagBadge>
+        <TagBadge variant="hot">Hot</TagBadge>
+      </div>
+    </Block>
+  );
+}
+
+function StatusBadges() {
+  return (
+    <Block title="Status badges">
+      <div className="space-y-3">
+        <div className="flex flex-wrap items-center gap-3">
+          <StatusBadge text="In Stock" tooltip="In Stock" type="success" />
+          <StatusBadge
+            text="Out of Stock"
+            tooltip="Out of Stock"
+            type="failure"
+          />
+          <StatusBadge text="On Order" tooltip="On Order" type="warning" />
+          <StatusBadge text="Unknown" tooltip="Unknown" type="unknown" />
+        </div>
+        <div className="flex flex-wrap items-center gap-3">
+          <StatusBadge showIcon={false} text="In Stock" type="success" />
+          <StatusBadge showIcon={false} text="Out of Stock" type="failure" />
+          <StatusBadge showIcon={false} text="On Order" type="warning" />
+        </div>
+        <div className="flex flex-wrap items-center gap-3">
+          <StatusBadge tooltip="In Stock" type="success" />
+          <StatusBadge tooltip="Out of Stock" type="failure" />
+          <StatusBadge tooltip="On Order" type="warning" />
+          <StatusBadge tooltip="Unknown" type="unknown" />
+        </div>
+      </div>
+    </Block>
+  );
+}
+
+function Alerts() {
+  return (
+    <Block title="Alerts">
+      <div className="space-y-3">
+        <Alert>
+          <AlertTitle>Heads up</AlertTitle>
+          <AlertDescription>
+            Your order qualifies for free shipping.
+          </AlertDescription>
+        </Alert>
+        <Alert variant="destructive">
+          <AlertTitle>Out of stock</AlertTitle>
+          <AlertDescription>
+            This part is currently unavailable for your vehicle.
+          </AlertDescription>
+        </Alert>
       </div>
     </Block>
   );
@@ -198,6 +267,26 @@ function FormControls() {
               <Label htmlFor="sg-used">Used</Label>
             </div>
           </RadioGroup>
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="sg-vin">VIN (invalid state)</Label>
+          <Input
+            aria-invalid="true"
+            defaultValue="bad-vin"
+            id="sg-vin"
+            placeholder="1HGCM82633A004352"
+          />
+          <p className="text-destructive text-sm">
+            Enter a valid 17-character VIN.
+          </p>
+        </div>
+        <div className="space-y-2 sm:col-span-2">
+          <Label htmlFor="sg-msg">Message</Label>
+          <Textarea
+            id="sg-msg"
+            placeholder="Tell us about your vehicle…"
+            rows={3}
+          />
         </div>
       </div>
     </Block>
