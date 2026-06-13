@@ -1,0 +1,26 @@
+import { hasLocale, IntlErrorCode } from "next-intl";
+import { getRequestConfig } from "next-intl/server";
+import { routing } from "./routing";
+
+export default getRequestConfig(async ({ requestLocale }) => {
+  const requested = await requestLocale;
+  const locale = hasLocale(routing.locales, requested)
+    ? requested
+    : routing.defaultLocale;
+
+  return {
+    locale,
+    messages: (await import(`../../messages/${locale}.json`)).default,
+    // Arabic translations are intentionally incomplete for now — fall back to
+    // the message key instead of logging a MISSING_MESSAGE error per string.
+    onError(error) {
+      if (error.code === IntlErrorCode.MISSING_MESSAGE) {
+        return;
+      }
+      console.error(error);
+    },
+    getMessageFallback({ key }) {
+      return key;
+    },
+  };
+});
