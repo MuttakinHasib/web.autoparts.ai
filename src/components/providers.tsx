@@ -8,6 +8,7 @@ import {
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { ThemeProvider } from "next-themes";
 import type { ReactNode } from "react";
+import { StoreHydration } from "@/components/store-hydration";
 import { Toaster } from "@/components/ui/sonner";
 
 function makeQueryClient() {
@@ -41,6 +42,7 @@ export function Providers({ children }: { children: ReactNode }) {
         disableTransitionOnChange
         enableSystem
       >
+        <StoreHydration />
         {children}
         <Toaster position="top-right" richColors />
       </ThemeProvider>
